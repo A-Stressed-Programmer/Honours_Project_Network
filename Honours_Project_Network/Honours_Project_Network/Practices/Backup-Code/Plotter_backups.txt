@@ -1,0 +1,28 @@
+        '''
+        print("Plotting....")
+        plt.subplot(1,2,1)
+        plt.title("-Initial Input Data-", fontsize=14)
+        inject = np.ravel(self.label_data)
+
+        y = np.array([50, 100, 150, 200])
+        plt.yticks(np.arange(y.min(), y.max(), 0.005))
+        plt.plot(y)
+        plt.grid(axis='y', linestyle='-')
+
+        plt.plot(inject,linestyle='dashed',linewidth=2, label="Target Data")
+        plt.legend(loc="upper left")
+        plt.savefig("Recurrent_Network/Graphs/input_data.png")
+        print("Plot Complete!")
+        '''
+
+		               #Plotters
+               print("Plotting....")
+               insert = np.ravel(self.results)
+               plt.subplot(1,2,2)
+               plt.title("-Training Model-", fontsize=14)
+               #plt.figure(figsize=(200,100))
+               plt.plot(insert, linestyle='dashed',linewidth=2, label="Predicted Data")
+               #plt.plot(self.label_data, linestyle='solid',linewidth=2, label="Target Data")
+               plt.legend(loc="upper left")
+               plt.savefig("Recurrent_Network/Graphs/train_data.png")
+               print("Plot Complete!")

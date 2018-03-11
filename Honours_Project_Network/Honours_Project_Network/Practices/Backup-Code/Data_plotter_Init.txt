@@ -1,0 +1,16 @@
+    def __init__(self):
+        '''
+        Initialize main variables for Plotter Visualization;
+        Data_Plotter(self)
+        '''
+        #File Locations 
+        #--Single Line Graphsi.e. Single inputs)--#
+        self.input_graph_single="Recurrent_Network/Graphs/input_data.png"#Input Data Graph Location
+        self.train_graph_single="Recurrent_Network/Graphs/RNN/Single/train_data.png"#Train Data Graph Location
+        self.test_graph_single="Recurrent_Network/Graphs/RNN/Single/test_data.png"#Test Data Graph Location
+        #--Compare Line Graphs(i.e. More than one input)--#
+        self.train_graph_compare="Recurrent_Network/Graphs/RNN/Compare/compare_train.png"
+        self.test_graph_compare="Recurrent_Network/Graphs/RNN/Compare/compare_test.png"
+        self.combined_graph="Recurrent_Network/Graphs/RNN/Compare/combined.png"
+        #--Errors--#
+        self.error_graph="Recurrent_Network/Graphs/RNN/Error/train_error.png"#Error Data Graph Location

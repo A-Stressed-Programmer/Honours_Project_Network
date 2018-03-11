@@ -1,0 +1,56 @@
+
+                #Layer Designer
+                layers = [tf.contrib.rnn.BasicRNNCell(num_units=self.n_neurons, activation=tf.nn.tanh)
+                          for layer in range(self.n_layers)]
+
+                cells = []
+                for _ in range(self.n_layers):
+                    cell = rnn.BasicRNNCell()
+
+                #Multi cell
+                multi_layer_rnn_cell = tf.contrib.rnn.MultiRNNCell(layers)
+                rnn_outputs, states = tf.nn.dynamic_rnn(multi_layer_rnn_cell, X, dtype=tf.float32)
+
+                #Output wrappers
+                #stacked_rnn_outputs = tf.reshape(rnn_outputs, [-1, self.n_neurons])
+                #stacked_outputs = tf.layers.dense(stacked_rnn_outputs, self.n_outputs)
+                #outputs = tf.reshape(stacked_outputs, [-1, num_data, self.n_outputs])
+
+                #Loss
+                loss = tf.reduce_mean(tf.square(self.n_outputs-y))
+                optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate)
+                training_op = optimizer.minimize(loss)
+
+                #Initialize
+                init = tf.global_variables_initializer()
+                saver = tf.train.Saver()
+
+                #Batching
+
+                #Run Main line
+                with tf.Session() as sess:
+                    print("Initialize Session(): ")
+                    init.run()#Initialize
+                    print("Begin: ")
+                    for iteration in range(num_data):
+                        #X_batch, Y_batch = next_batch(self.n_batches, num_data)
+                        #Define x_batch
+                        sess.run(training_op, feed_dict={X: X_batch, y: Y_batch})
+                        if iteration % 100 == 0:
+                            mse = loss.eval(feed_dict={X: X_batch, y: Y_batch})
+                            print(iteration, "\tMSE:", mse)
+                    print("Train Completed!")
+                    #X_new = time_series(np.array(t_instance[:-1].reshape(-1, num_data, self.n_inputs)))
+                    #y_pred = sess.run(outputs, feed_dict={X: X_new})
+            except Exception as e:
+                print("Train_Error: {0}]".format(str(e.args[0])).encode("utf-8"))
+                return None
+
+				---
+				
+    def next_batch(batch_size, n_steps):
+        t0 = np.random.rand(batch_size, 1) * (t_max - t_min - n_steps * resolution)
+        Ts = t0 + np.arange(0., n_steps + 1) * resolution
+        ys = time_series(Ts)
+        return ys[:, :-1].reshape(-1, n_steps, 1), ys[:, 1:].reshape(-1, n_steps, 1)
+				---

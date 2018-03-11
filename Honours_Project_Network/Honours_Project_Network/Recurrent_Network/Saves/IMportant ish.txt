@@ -1,0 +1,49 @@
+        with tf.Session() as sess:
+           if training:
+               init.run()#Initialize
+               #---Outer Epoch Shell---#
+               print("---Training RNN Model---")
+               for epoch  in range(self.epoch):
+                   #---Inner Iteration shell----#
+                   self.results = []*0
+                   for iteration in range(self.num_batch):
+                       #---Execution Shell---#
+                       x_batch, y_batch = rnn.train_next_batch()
+                       _, output_val, mse = sess.run([training_op, outputs, loss], feed_dict={self.X: x_batch, self.Y: y_batch})
+                       #Append data to array
+                       fucking_work = []
+                       for i in range(len(output_val)):
+                           fucking_work.append(output_val[i])
+                       self.results.append(fucking_work)
+                       self.loss.append(mse)
+                       #---Execution Shell End---#
+                   #---Inner Shell End---#
+                   print("Epoch: [",epoch ,"/" , self.epoch,"] ", "MSE: [",mse,"]")#Prompter ,"Output: [", output_val, "]"
+               #---Outer Shell End---#
+               print("---Training Completed!---")
+               print("Saving!")
+               saver.save(sess, "Recurrent_Network/Saves/my_honours_project_saver.ckpt")
+               filereader.read_into_temp(self.results)
+
+               #Plotters
+               insert = np.ravel(self.results)
+               print("Plotting...")
+               dataplotter.train_graph(insert)
+               dataplotter.c_train_graph(insert, self.input_data)
+               print("Plot Completed!")
+               #---END OF TRAIN--#
+           else:
+               '''
+               Model Without dropout layer! 
+               '''
+               saver.restore(sess, "Recurrent_Network/Saves/my_honours_project_saver.ckpt")#Restore Files
+               tf.reset_default_graph()#Reset data
+               print("---Testing Model---")#Prompter
+               #sequence = [[0.]* self.n_inputs] * self.n_steps
+               for iteration in range(self.num_batch):
+                   #---Inner Operation Shell---#
+                   #x_batch = np.array(sequence[-self.n_steps:self.n_inputs]).reshape(1, self.n_steps, self.n_inputs)
+                   x_batch, y_batch = test_next_batch()
+                   y_pred = sess.run(outputs, feed_dict={self.X:x_batch, self.Y:y_batch})
+                   print(y_pred)
+                   #sequence.append(y_pred[0,-1,0])

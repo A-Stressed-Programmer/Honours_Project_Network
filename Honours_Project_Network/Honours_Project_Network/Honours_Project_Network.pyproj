@@ -21,6 +21,21 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="LSTM_Network\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Neural_Network\Attributes.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Neural_Network\Main.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Neural_Network\Network.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Neural_Network\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Practices\Backup-Code\Main_Session_One.py">
       <SubType>Code</SubType>
     </Compile>
@@ -76,6 +91,8 @@
   <ItemGroup>
     <Folder Include="images\lstm\" />
     <Folder Include="images\rnn\" />
+    <Folder Include="LSTM_Network\" />
+    <Folder Include="Neural_Network\" />
     <Folder Include="images\" />
     <Folder Include="Datasets\" />
     <Folder Include="Practices\" />
@@ -119,6 +136,7 @@
     <Content Include="Datasets\MSFT.csv" />
     <Content Include="images\lstm\Long Short-Term Memory.png" />
     <Content Include="images\rnn\Recurrent Neural Network.jpg" />
+    <Content Include="Neural_Network\test.csv" />
     <Content Include="Practices\Backup-Code\Data_plotter_Init.txt" />
     <Content Include="Practices\Backup-Code\new_idea.txt">
       <SubType>Code</SubType>

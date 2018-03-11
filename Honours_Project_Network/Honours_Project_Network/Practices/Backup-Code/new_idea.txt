@@ -1,0 +1,21 @@
+    def rnn_neuron(self, type):
+        '''
+        Desinger of Recurrent Neural Neuron
+        '''
+        return neuron
+
+    def rnn_layer(self, type):
+        '''
+        Designer of Recurrent Neural Network Layer
+        '''
+        return layer
+
+    def rnn_network(self):
+        '''
+        Concatinates the Layer and Neuron to build network for training
+        '''
+        return network
+
+		                    #Get Y label outputs alongside X inputs, this may correct a working theory
+                    mse = loss.eval(feed_dict={self.X:x_batch})
+                    print(epoch, "\tMSE:", mse)

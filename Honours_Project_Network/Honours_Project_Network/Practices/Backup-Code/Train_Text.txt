@@ -1,0 +1,22 @@
+    def Train_Basic_RNN(self):
+        '''
+        Train Basic RNN cell model
+
+        Basic RNN cell, shared values of weights and biases at all stages of unrolled RNN's,
+        Weights [U]Input, [W]Recurrance, [V]Outputs are shared through out the Tensor contruction.
+        
+        Figure 1: "images\rnn\Recurrent Neural Network.jpg"
+
+        Design;
+        The train stage will feed all data from stock market .Csv file into main network, to allow
+        error training to optimize to the shape of the data.
+        [X] --- > [S] ---> [O]
+                   \[W]
+        [X^2] ---> [S^T-1] --->[O^T-1]
+                    \[W]
+        [X^3] ---> [S^T] ---> [O^T]
+
+        ...
+                     \[W]
+        [X^x] ---> [S^Tx] --->[O^Tx]
+        '''

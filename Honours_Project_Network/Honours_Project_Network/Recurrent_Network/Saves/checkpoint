@@ -1,0 +1,2 @@
+model_checkpoint_path: "my_honours_project_saver.ckpt"
+all_model_checkpoint_paths: "my_honours_project_saver.ckpt"
