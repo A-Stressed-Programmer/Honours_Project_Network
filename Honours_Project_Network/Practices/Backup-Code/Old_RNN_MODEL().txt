@@ -1,0 +1,139 @@
+    def Train_Basic_RNN(self):
+        '''
+        Train Basic RNN cell model
+
+        Basic RNN cell, shared values of weights and biases at all stages of unrolled RNN's,
+        Weights [U]Input, [W]Recurrance, [V]Outputs are shared through out the Tensor contruction.
+        
+        Figure 1: "images\rnn\Recurrent Neural Network.jpg"
+
+        Design;
+        The train stage will feed all data from stock market .Csv file into main network, to allow
+        error training to optimize to the shape of the data.
+        [X] --- > [S] ---> [O]
+                   \[W]
+        [X^2] ---> [S^T-1] --->[O^T-1]
+                    \[W]
+        [X^3] ---> [S^T] ---> [O^T]
+
+        ...
+                     \[W]
+        [X^x] ---> [S^Tx] --->[O^Tx]
+        '''
+        print("Begining Training Session: ")#Prompter
+
+        while True:#Error Handle
+            try:
+                #Declare Placeholder variables
+                '''
+                tf.placeholder((Placeholder_Type), (Placeholder_Shape[(X)(Y)]), (Placeholder_Name))
+                '''
+                X = tf.placeholder(tf.float32, [None, self.n_inputs, self.num_data])
+
+                cells = []#Declare Array Cell
+
+                #Populate Cell for mulitlayer RNN
+                
+                for _ in range(self.n_layers):
+                    cell = rnn.BasicRNNCell(self.n_neurons)#Add Neurons
+                    cells.append(cell)#Append Cells
+                
+                    self.rnn_network = cell = rnn.MultiRNNCell(cells, state_is_tuple=True)#Declare Cell(Number of Cells, is Turple Model)
+                
+                '''
+                Multilayer RNN Cell = MultiCell(Cell_Properties)
+                '''
+                multi_layer_cell = tf.contrib.rnn.MultiRNNCell(cells, state_is_tuple=True)
+                '''
+                Outputs & States = [(Layered_Cell), (Placeholder_TEMP), (Placerholder_Type)]
+                '''
+                outputs, states = tf.nn.dynamic_rnn(multi_layer_cell, X, dtype=tf.float32)
+                '''
+                layers = [tf.contrib.rnn.BasicRNNCell(num_units=self.n_neurons)
+                   for layer in range(self.n_layers)]
+                multi_layer_cell = tf.contrib.rnn.MultiRNNCell(layers)
+                outputs, states = tf.nn.dynamic_rnn(multi_layer_cell, X, dtype=tf.float32)
+                '''
+                #Variable Grabbers
+                #self.attrs = tf.placeholder(tf.float32, [self.batch_size, self.num_data])#Placeholder inputs
+                #Targets
+                #initial_state
+
+                init = tf.global_variables_initializer()
+
+                x_batch = np.random.rand(None, 10, self.num_data)
+
+                with tf.Session() as sess:
+                    init.run()
+                    output_vals, states_val = sess.run([outputs, states], feed_dict={self.attrs:x_batch})
+                    '''
+                    tf.placeholder((Placeholder_Type), (Placeholder_Shape[(X)(Y)]), (Placeholder_Name))
+                    -"Tensorflow Placeholder creates a tensor of defined shape empty of variables, ready for actual data"
+
+                    feed_dict = {(Placeholder):(Actual_Input_Sequence)}
+                    -"Feed direct inserts the data into the Placeholder for network execute, ensure that they are same size however"
+                    '''
+
+
+
+
+
+
+            except Exception as e:
+                print("Train_Error: {0}]".format(str(e.args[0])).encode("utf-8"))
+                return None
+
+    def Test_Basic_RNN(self):
+        '''
+        Test Basic RNN cell model with single model
+
+        Basic RNN cell, shared values of weights and biases at all stages of unrolled RNN's,
+        Weights [U]Input, [W]Recurrance, [V]Outputs are shared through out the Tensor contruction.
+        
+        Figure 1: "images\rnn\Recurrent Neural Network.jpg"
+
+        Design;
+        The train stage will feed only the first Data line from the .Csv stock market file, the rest 
+        will be Numpy Zeros to allow the network to indepedantly create the prediction from the Error
+        reduction from the train session.
+        [X] --- > [S] ---> [O]
+                   \[W]
+        [0] ---> [S^T-1] --->[O^T-1]
+                    \[W]
+        [0] ---> [S^T] ---> [O^T]
+
+        ...
+                     \[W]
+        [0] ---> [S^Tx] --->[O^Tx]
+        '''
+
+'''
+self, n_neurons, n_layers, learning_rate, n_inputs, n_outputs, input_data, n_batches
+'''
+
+
+'''
+import os,sys
+from scipy import stats
+import numpy as np
+
+f=open('Recurrent_Network/Temp/train_temp.csv', 'r').readlines()
+N=len(f)-1
+counter = 0
+for i in range(0,N):
+    w=f[i].split()
+    l1=w[1:8]
+    l2=w[8:15]
+    try:
+        list1=[]
+        list2=[]
+        list1=[float(x) for x in l1]
+        list2=[float(x) for x in l2]
+    except ValueError as e:
+        print ("error",e,"on line",i)
+        counter = counter + 1
+    result=stats.ttest_ind(list1,list2)
+    print(result[1])
+print(counter)
+'''
+#plotter_x_axis_data, input_data, label_data = filereader.parse_data('AAPL.csv')
