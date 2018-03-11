@@ -1,0 +1,2 @@
+model_checkpoint_path: "Recurrent_Neural_Network.ckpt"
+all_model_checkpoint_paths: "Recurrent_Neural_Network.ckpt"
