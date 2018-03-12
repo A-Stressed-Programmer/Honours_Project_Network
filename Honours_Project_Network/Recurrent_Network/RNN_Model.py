@@ -147,10 +147,6 @@ class RNN():
         self.error_loss = []
         self.train_results = []
         self.test_results = []
-        #For Bidirectional Networks
-        self.fw_results = []
-        self.bw_results = []
-
         self.current_pos = 0#Zero position for batching
         self.t_backup = 0#Backup for [Index out of range]
 
@@ -1120,7 +1116,7 @@ class RNN():
                 print("Testing LSTM: Epoch: [",epoch ,"/" , self.epoch,"] ")#Prompter ,"Output: [", output_val, "]"", "MSE: [",mse,"]"
             #---Outer Shell End---#
             print("---Testing Completed!---")
-            filereader.read_into_temp(self.test_results, "/LSTM/test_results.csv")#Print Into File
+            filereader.read_into_temp(np.ravel(self.test_results), "/LSTM/test_results.csv")#Print Into File
 
             #Numpy.Ravel
             training_results = np.ravel(self.train_results)
@@ -1131,8 +1127,6 @@ class RNN():
             dataplotter.test_graph(self.filename,testing_results, 'lstm')
             dataplotter.c_test_graph(self.filename,testing_results, np.ravel(self.test_label), 'lstm')
             dataplotter.c_combined_graph(self.filename, self.train_label, self.test_label,np.ravel(self.train_results), np.ravel(self.test_results), 'lstm')
-            #Plot Completed
-            #dataplotter.co
             print("Plot Completed!")
 
             print("---LSTM END---")
@@ -1247,15 +1241,14 @@ class RNN():
             cell = tf.contrib.rnn.BasicLSTMCell(self.n_neurons) 
             cell = tf.nn.rnn_cell.DropoutWrapper(cell, input_keep_prob=prob, output_keep_prob=prob, state_keep_prob=prob)
             bw_lstms.append(cell)    
-        #bw_lstms = [tf.contrib.rnn.BasicLSTMCell(hidden_size) for _ in range(num_layers)]
 
-        fw_init_state_ls = [lstm.zero_state(self.train_size, tf.float32) for lstm in fw_lstms]
-        bw_init_state_ls = [lstm.zero_state(self.train_size, tf.float32) for lstm in bw_lstms]
+        #fw_init_state_ls = [lstm.zero_state(self.train_size, tf.float32) for lstm in fw_lstms]#Do not work with current Tensorshape
+        #bw_init_state_ls = [lstm.zero_state(self.train_size, tf.float32) for lstm in bw_lstms]
 
-        (fw_outputs, bw_outputs), final_states_fw, final_states_bw = tf.contrib.rnn.stack_bidirectional_dynamic_rnn(cells_fw = fw_lstms, cells_bw = bw_lstms,
+        rnn_outputs, final_states_fw, final_states_bw = tf.contrib.rnn.stack_bidirectional_dynamic_rnn(cells_fw = fw_lstms, cells_bw = bw_lstms,
             inputs = X, dtype=tf.float32)
 
-        #bi_final_state = tf.concat([final_states_fw[-1][1], final_states_bw[-1][1]], 1)
+        bi_final_state = tf.concat([final_states_fw[-1][1], final_states_bw[-1][1]], 1)#For Finial States
         
         with tf.name_scope("total_wrapper"):
             stacked_rnn_outputs = tf.reshape(rnn_outputs, [-1, self.n_neurons])
@@ -1281,6 +1274,12 @@ class RNN():
             optimizer = tf.train.AdamOptimizer(learning_rate = self.learning_rate)#OPTIMIZER, ADAM is MOST ACCURATE MODEL
             training_op = optimizer.minimize(loss)
 
+            '''
+                                #Split Data in half
+                    first_half = output_val[:len(output_val/2)]#First Half
+                    first_half = output_val[len(output_val/2):]#Second Half
+            '''
+
         init = tf.global_variables_initializer()
         saver = tf.train.Saver()
 
@@ -1298,23 +1297,10 @@ class RNN():
                     _, output_val, mse = sess.run([training_op, outputs, loss], feed_dict={X: x_batch, Y: y_batch})#TRAINING
                     #_, fw_results, bw_results, mse = sess.run([training_op, fw_outputs, bw, loss], feed_dict={X: x_batch, Y: y_batch})#TRAINING
                     results_data = []#Append data to array
-   
-                    #Split Data in half
-                    first_half = output_val[:len(output_val/2)]#First Half
-                    first_half = output_val[len(output_val/2):]#Second Half
-
-                    #Append Forward
-                    for i in range(len(first_half)):
-                        results_data.append(first_half[i])
+                    #Append Data
+                    for i in range(output_val):
+                        results_data.append(output_val)
                     self.train_results.append(results_data)#Append Results
-
-                    #Append Backward
-                    for i in range(len(first_half)):
-                        '''
-                        '''
-
-                    #Append Backward
-                    
                     #---Execution Shell End---#
                 #---Inner Shell End---#
                 print("Training LSTM: Epoch: [",epoch ,"/" , self.epoch,"] ", "MSE: [",mse,"]")#Prompter ,"Output: [", output_val, "]"

@@ -103,6 +103,8 @@
     <Folder Include="Recurrent_Network\Graphs\RNN\Single\" />
     <Folder Include="Recurrent_Network\Saves\" />
     <Folder Include="Recurrent_Network\Saves\LSTM\" />
+    <Folder Include="Recurrent_Network\Saves\BI-RNN\" />
+    <Folder Include="Recurrent_Network\Saves\BI-LSTM\" />
     <Folder Include="Recurrent_Network\Saves\RNN\" />
     <Folder Include="Recurrent_Network\Temp\" />
     <Folder Include="Recurrent_Network\Temp\Data\" />
@@ -168,14 +170,10 @@
     <Content Include="Recurrent_Network\Graphs\RNN\Compare\combined.png" />
     <Content Include="Recurrent_Network\Graphs\RNN\Error\train_error.png" />
     <Content Include="Recurrent_Network\Graphs\input_data.png" />
-    <Content Include="Recurrent_Network\Saves\checkpoint" />
     <Content Include="Recurrent_Network\Saves\RNN\checkpoint" />
     <Content Include="Recurrent_Network\Saves\RNN\Recurrent_Neural_Network.ckpt.data-00000-of-00001" />
     <Content Include="Recurrent_Network\Saves\RNN\Recurrent_Neural_Network.ckpt.index" />
     <Content Include="Recurrent_Network\Saves\RNN\Recurrent_Neural_Network.ckpt.meta" />
-    <Content Include="Recurrent_Network\Saves\my_honours_project_saver.ckpt.data-00000-of-00001" />
-    <Content Include="Recurrent_Network\Saves\my_honours_project_saver.ckpt.index" />
-    <Content Include="Recurrent_Network\Saves\my_honours_project_saver.ckpt.meta" />
     <Content Include="Recurrent_Network\Graphs\RNN\Single\test_data.png" />
     <Content Include="Recurrent_Network\Temp\BI-LSTM\error_results.csv" />
     <Content Include="Recurrent_Network\Temp\BI-LSTM\test_results.csv" />

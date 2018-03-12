@@ -1,7 +1,6 @@
 import csv
 import random
 import numpy as np
-import pandas as pd
 
 class File_Reader():
     def __init__(self):

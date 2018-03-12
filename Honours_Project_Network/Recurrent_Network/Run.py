@@ -25,7 +25,7 @@ toggle_num = Toggle Switch for injection type, Use [Open][High][Low]-->[Predict(
 #rrn.train_lstm_model()
 #rrn.test_lstm_model()
 #--BI-LSTM--#
-#rrn.train_bi_lstm_model()
+rrn.train_bi_lstm_model()
 #rrn.test_bi_lstm_model()
 
 
